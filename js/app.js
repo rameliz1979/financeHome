@@ -8,6 +8,7 @@ import { initAuthUI } from './ui/auth.ui.js';
 import { initDashboardUI, renderHouseholdSelector, renderAllDashboard } from './ui/dashboard.ui.js';
 import { initModalsUI } from './ui/modals.ui.js';
 import { initAdminUI, checkSuperAdminRole } from './ui/admin.ui.js';
+import { initNotificationsUI, syncNotificationsForActiveHousehold } from './ui/notifications.ui.js';
 
 import { getExistingSession, syncAndLoadUser } from './services/auth.service.js';
 import { loadUserHouseholds, selectHousehold } from './services/household.service.js';
@@ -45,6 +46,7 @@ async function refreshDashboard() {
         loadInstallments()
     ]);
     renderAllDashboard();
+    await syncNotificationsForActiveHousehold();
 }
 
 /**
@@ -72,6 +74,8 @@ async function initApp() {
     initDashboardUI(async () => {
         await refreshDashboard();
     });
+
+    initNotificationsUI();
 
     initModalsUI(async () => {
         await refreshDashboard();

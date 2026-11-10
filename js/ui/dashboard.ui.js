@@ -177,25 +177,19 @@ export function renderChart() {
     const ctx = document.getElementById('financeChart')?.getContext('2d');
     if (!ctx) return;
 
-    let inc = 0, exp = 0, cuot = 0;
-    AppState.householdTransactions.forEach(t => {
-        if (t.type === 'income') inc += Number(t.amount || 0);
-        if (t.type === 'expense') exp += Number(t.amount || 0);
-    });
-
-    AppState.householdInstallments.forEach(i => {
-        cuot += Number(i.amount_per_month || 0);
-    });
+    const { income, expense, installments, balance } = calculateMetrics();
+    const available = Math.max(balance, 0);
+    const spent = Math.min(income, expense + installments);
 
     if (AppState.chartInstance) AppState.chartInstance.destroy();
 
     AppState.chartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Ingresos', 'Gastos Directos', 'Cuotas Mensuales'],
+            labels: ['Dinero disponible', 'Gastado del total'],
             datasets: [{
-                data: [inc || 1, exp, cuot],
-                backgroundColor: [CHART_COLORS.income, CHART_COLORS.expense, CHART_COLORS.installments],
+                data: [available, spent],
+                backgroundColor: [CHART_COLORS.income, CHART_COLORS.expense],
                 borderWidth: 0
             }]
         },

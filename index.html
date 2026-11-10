@@ -358,6 +358,22 @@
                         <span class="hidden xs:inline">Panel SuperAdmin</span>
                     </button>
 
+                    <div id="notificationControl" class="relative">
+                        <button id="notificationBellBtn" type="button" title="Notificaciones financieras" aria-label="Notificaciones financieras" aria-haspopup="dialog" aria-controls="notificationPanel" aria-expanded="false" class="relative p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-gray-700 transition-all">
+                            <i class="fas fa-bell text-sm"></i>
+                            <span id="notificationUnreadCount" class="hidden absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-rose-600 text-white text-[9px] font-extrabold leading-4 text-center"></span>
+                        </button>
+                        <section id="notificationPanel" role="dialog" aria-label="Historial de alertas financieras" class="hidden absolute right-0 mt-2 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-50">
+                            <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+                                <h2 class="text-xs font-extrabold text-gray-900 dark:text-white">Alertas del hogar</h2>
+                                <button id="markAllNotificationsReadBtn" type="button" class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 hover:underline disabled:opacity-40 disabled:no-underline" disabled>Marcar todas leídas</button>
+                            </div>
+                            <div id="notificationList" class="max-h-80 overflow-y-auto" aria-live="polite">
+                                <p class="px-4 py-8 text-center text-xs text-gray-500">Sin alertas nuevas.</p>
+                            </div>
+                        </section>
+                    </div>
+
                     <!-- BOTÓN MI PERFIL -->
                     <button id="btnOpenProfileModal" title="Mi Perfil" class="px-2.5 sm:px-3 py-1.5 sm:py-2 bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-gray-200 dark:border-gray-700">
                         <i class="fas fa-user-gear text-brand-600 dark:text-brand-400 text-xs"></i>
@@ -615,6 +631,28 @@
                 </div>
 
             </div>
+
+            <section class="glass-card p-4 sm:p-5 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-3" aria-labelledby="monthlyBudgetHeading">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <h2 id="monthlyBudgetHeading" class="text-sm font-bold text-gray-900 dark:text-white">Presupuesto mensual del hogar</h2>
+                        <p id="budgetSpentText" class="text-xs text-gray-500 dark:text-gray-400">Cargando presupuesto y gastos del mes...</p>
+                    </div>
+                    <form id="monthlyBudgetForm" class="flex flex-wrap items-end gap-2">
+                        <div>
+                            <label for="monthlyBudgetInput" class="block mb-1 text-[10px] font-bold uppercase text-gray-500">Límite mensual (COP)</label>
+                            <input id="monthlyBudgetInput" type="number" min="1" step="1000" required inputmode="decimal" disabled class="w-40 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-xs font-bold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50">
+                        </div>
+                        <button type="submit" disabled class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-floppy-disk mr-1" aria-hidden="true"></i>Guardar
+                        </button>
+                    </form>
+                </div>
+                <div id="budgetProgressBar" class="h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800" role="progressbar" aria-label="Gasto del presupuesto mensual" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div id="budgetProgressFill" class="h-full rounded-full bg-emerald-500 transition-all" style="width: 0%"></div>
+                </div>
+                <p id="budgetStatusText" class="text-[10px] text-gray-500 dark:text-gray-400">Las alertas se envían dentro de FinanceHome al 80 %, 90 % y 100 % del límite.</p>
+            </section>
 
             <!-- SECCIÓN PRINCIPAL DE TABLAS Y GRÁFICO -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
